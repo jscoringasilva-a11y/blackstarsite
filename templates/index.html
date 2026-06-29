@@ -1,1 +1,1154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BlackStar Contabilidade — Escritório contábil com metodologia Big Four. Contabilidade, fiscal, departamento pessoal e societário para empresas em São Paulo.">
+<title>BlackStar Contabilidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+:root {
+  --black:    #0C0C0C;
+  --black2:   #161616;
+  --gold:     #C49A2A;
+  --gold2:    #E0B84A;
+  --white:    #F8F7F4;
+  --gray:     #6A6A6A;
+  --gray2:    #EFEFEC;
+  --border:   #E2E0DB;
+  --radius:   4px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  background: rgba(248,247,244,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s;
+}
+
+.navbar.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,.07); }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo img {
+  height: 38px;
+  width: auto;
+}
+
+.logo-fallback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-fallback svg { width: 34px; height: 34px; }
+
+.logo-wordmark {
+  line-height: 1.1;
+}
+
+.logo-wordmark .black { font-weight: 700; font-size: 17px; color: var(--black); font-family: 'Inter', sans-serif; }
+.logo-wordmark .star  { font-weight: 700; font-size: 17px; color: var(--gold); font-family: 'Inter', sans-serif; }
+.logo-wordmark .sub   { font-size: 10px; color: var(--gray); letter-spacing: 1.8px; text-transform: uppercase; font-weight: 400; display: block; }
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color .2s;
+}
+
+.nav-menu a:hover { color: var(--black); }
+
+.btn-cliente {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  padding: 9px 20px !important;
+  border-radius: var(--radius) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  transition: background .2s !important;
+}
+
+.btn-cliente:hover { background: #2c2c2c !important; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: all .3s;
+  border-radius: 2px;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 100px 6% 80px;
+  gap: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left { position: relative; z-index: 2; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.hero-tag::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 5.5vw, 76px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -1px;
+  color: var(--black);
+  margin-bottom: 28px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--gray);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 460px;
+  margin-bottom: 44px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .2s, transform .15s;
+}
+
+.btn-gold:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--black);
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color .2s, transform .15s;
+}
+
+.btn-outline:hover { border-color: var(--black); transform: translateY(-1px); }
+
+.hero-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-star-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.06;
+}
+
+.hero-star-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding: 20px;
+}
+
+.hero-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+  transform: translateX(0);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.hero-card:hover { transform: translateX(-6px); box-shadow: 0 4px 24px rgba(0,0,0,.1); }
+.hero-card:nth-child(2) { margin-left: 32px; }
+.hero-card:nth-child(3) { margin-left: 16px; }
+
+.hero-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.hero-card-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.hero-card-text span {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+/* ── FAIXA ── */
+.faixa {
+  background: var(--black);
+  padding: 0 6%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 3px solid var(--gold);
+}
+
+.faixa-item {
+  padding: 48px 32px;
+  border-right: 1px solid #222;
+  text-align: center;
+}
+
+.faixa-item:last-child { border-right: none; }
+
+.faixa-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.faixa-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ── SERVIÇOS ── */
+.secao {
+  padding: 110px 6%;
+}
+
+.secao-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.secao-tag::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.secao h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  max-width: 600px;
+  margin-bottom: 64px;
+}
+
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.servico {
+  background: var(--white);
+  padding: 52px 48px;
+  transition: background .25s;
+  cursor: default;
+}
+
+.servico:hover { background: #fff; }
+
+.servico-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.servico-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: border-color .2s, background .2s;
+}
+
+.servico:hover .servico-icon-wrap {
+  border-color: var(--gold);
+  background: rgba(196,154,42,.08);
+}
+
+.servico-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--border);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.servico h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 12px;
+  color: var(--black);
+}
+
+.servico p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.75;
+}
+
+.servico-items {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.servico-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.servico-item::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── METODOLOGIA ── */
+.metodologia {
+  background: var(--black);
+  padding: 110px 6%;
+  color: var(--white);
+}
+
+.metodologia .secao-tag { color: var(--gold); }
+.metodologia .secao-tag::before { background: var(--gold); }
+.metodologia h2 { color: var(--white); }
+
+.metodologia-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.metodologia-texto h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+
+.metodologia-texto p {
+  font-size: 16px;
+  color: #888;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.metodologia-texto p strong { color: var(--gold); font-weight: 600; }
+
+.metodologia-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.met-item {
+  padding: 28px 0;
+  border-bottom: 1px solid #222;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.met-item:first-child { border-top: 1px solid #222; }
+
+.met-icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.met-text strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.met-text span {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ── PORTAL ── */
+.portal {
+  padding: 110px 6%;
+  background: var(--gray2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.portal-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.portal-visual {
+  background: var(--black);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,.15);
+}
+
+.portal-topbar {
+  background: #1a1a1a;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.dot-red { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+.dot-yellow { width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; }
+.dot-green { width: 10px; height: 10px; border-radius: 50%; background: #28c840; }
+
+.portal-topbar-title {
+  font-size: 11px;
+  color: #555;
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.portal-body { padding: 24px; }
+
+.portal-header-mock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.portal-header-mock span {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.portal-header-mock small { font-size: 11px; color: #444; }
+
+.portal-doc {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.portal-doc-info { display: flex; align-items: center; gap: 12px; }
+.portal-doc-icon { font-size: 18px; }
+
+.portal-doc-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ccc;
+  display: block;
+}
+
+.portal-doc-date { font-size: 11px; color: #555; }
+
+.portal-doc-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(196,154,42,.2);
+  color: var(--gold);
+  letter-spacing: 0.5px;
+}
+
+/* ── CTA ── */
+.cta-final {
+  padding: 120px 6%;
+  text-align: center;
+  background: var(--white);
+}
+
+.cta-final h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-final h2 em { font-style: italic; color: var(--gold); }
+
+.cta-final p {
+  font-size: 18px;
+  color: var(--gray);
+  font-weight: 300;
+  max-width: 480px;
+  margin: 0 auto 44px;
+  line-height: 1.7;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black);
+  padding: 64px 6% 32px;
+  border-top: 3px solid var(--gold);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 64px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #1e1e1e;
+  margin-bottom: 32px;
+}
+
+.footer-brand p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.75;
+  margin-top: 16px;
+  max-width: 300px;
+}
+
+.footer-col h5 {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 12px; }
+.footer-col a {
+  text-decoration: none;
+  color: #555;
+  font-size: 13px;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--gold); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-bottom p { font-size: 12px; color: #333; }
+.footer-bottom span { font-size: 12px; color: #333; }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .nav-menu { display: none; }
+  .hamburger { display: flex; }
+
+  .nav-menu.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 70px; left: 0; right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 6%;
+    gap: 20px;
+    z-index: 199;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 100px 6% 60px;
+    gap: 48px;
+    min-height: auto;
+  }
+
+  .hero-right { display: none; }
+
+  .faixa {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .faixa-item { border-right: none; border-bottom: 1px solid #222; }
+  .faixa-item:nth-child(odd) { border-right: 1px solid #222; }
+  .faixa-item:nth-child(3),
+  .faixa-item:nth-child(4) { border-bottom: none; }
+
+  .servicos-grid { grid-template-columns: 1fr; }
+  .servico { padding: 36px 28px; }
+
+  .metodologia-grid { grid-template-columns: 1fr; gap: 48px; }
+  .portal-inner { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* Animações suaves */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-card { animation: slideIn .6s ease both; }
+  .hero-card:nth-child(1) { animation-delay: .1s; }
+  .hero-card:nth-child(2) { animation-delay: .25s; }
+  .hero-card:nth-child(3) { animation-delay: .4s; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+/* ── WHATSAPP FLUTUANTE ── */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  animation: wppBounce 2.5s infinite;
+}
+.whatsapp-float:hover .wpp-label { opacity: 1; transform: translateX(0); }
+.wpp-label {
+  background: var(--black);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all .3s;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+.wpp-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,.5);
+  transition: transform .2s, box-shadow .2s;
+}
+.wpp-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,.7); }
+.wpp-btn svg { width: 30px; height: 30px; fill: #fff; }
+@keyframes wppBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@media (max-width: 768px) {
+  .whatsapp-float { bottom: 20px; right: 20px; }
+  .wpp-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo">
+    <img src="/static/logo.jpeg" alt="BlackStar Contabilidade" style="height:58px; width:auto;">
+  </a>
+
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#metodologia">Sobre nós</a></li>
+    <li><a href="#portal">Portal</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="#" class="btn-cliente">Área do Cliente</a></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Escritório Contábil</div>
+    <h1>Contabilidade<br>que <em>impulsiona</em><br>seu negócio.</h1>
+    <p class="hero-desc">Nossa equipe entrega soluções contábeis, fiscais e trabalhistas com a precisão e os padrões de excelência das maiores firmas do mundo — agora ao alcance da sua empresa.</p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/5511978711841?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20BlackStar%20Contabilidade." class="btn-gold" target="_blank">Falar com nossa equipe →</a>
+      <a href="#servicos" class="btn-outline">Nossos serviços</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-star-bg">
+        <svg viewBox="0 0 200 200"><polygon points="100,5 118,65 180,65 130,100 150,165 100,128 50,165 70,100 20,65 82,65" fill="#C49A2A"/></svg>
+      </div>
+      <div class="hero-cards">
+        <div class="hero-card">
+          <div class="hero-card-icon">📊</div>
+          <div class="hero-card-text">
+            <strong>Balancete gerado</strong>
+            <span>Competência Junho/2026</span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon">🧾</div>
+          <div class="hero-card-text">
+            <strong>Guias disponíveis</strong>
+            <span>DAS, DARF, GPS enviados</span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon">👥</div>
+          <div class="hero-card-text">
+            <strong>Folha processada</strong>
+            <span>Holerites no portal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAIXA -->
+<div class="faixa">
+  <div class="faixa-item">
+    <div class="faixa-num">Big4</div>
+    <div class="faixa-label">Metodologia PwC & EY</div>
+  </div>
+  <div class="faixa-item">
+    <div class="faixa-num">100%</div>
+    <div class="faixa-label">Digital & Online</div>
+  </div>
+  <div class="faixa-item">
+    <div class="faixa-num">BR</div>
+    <div class="faixa-label">Atendimento Nacional</div>
+  </div>
+  <div class="faixa-item">
+    <div class="faixa-num">24h</div>
+    <div class="faixa-label">Portal do Cliente</div>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section class="secao" id="servicos">
+  <div class="secao-tag">O que oferecemos</div>
+  <h2>Soluções completas para a gestão da sua empresa</h2>
+
+  <div class="servicos-grid">
+    <div class="servico">
+      <div class="servico-header">
+        <div class="servico-icon-wrap">📊</div>
+        <span class="servico-num">01</span>
+      </div>
+      <h3>Contabilidade</h3>
+      <p>Escrituração contábil precisa, balancetes mensais e demonstrações financeiras que apoiam a tomada de decisão estratégica do seu negócio.</p>
+      <div class="servico-items">
+        <div class="servico-item">Escrituração contábil completa</div>
+        <div class="servico-item">Balancetes e DRE mensais</div>
+        <div class="servico-item">Relatórios gerenciais</div>
+      </div>
+    </div>
+
+    <div class="servico">
+      <div class="servico-header">
+        <div class="servico-icon-wrap">🧾</div>
+        <span class="servico-num">02</span>
+      </div>
+      <h3>Fiscal & Tributário</h3>
+      <p>Apuração de impostos, cumprimento de obrigações acessórias e planejamento tributário para reduzir a carga fiscal da sua empresa dentro da lei.</p>
+      <div class="servico-items">
+        <div class="servico-item">Simples Nacional, Lucro Presumido e Real</div>
+        <div class="servico-item">SPED, EFD, DCTF e demais obrigações</div>
+        <div class="servico-item">Planejamento tributário estratégico</div>
+      </div>
+    </div>
+
+    <div class="servico">
+      <div class="servico-header">
+        <div class="servico-icon-wrap">👥</div>
+        <span class="servico-num">03</span>
+      </div>
+      <h3>Departamento Pessoal</h3>
+      <p>Gestão completa da folha de pagamento, eSocial e toda a rotina trabalhista da sua equipe com agilidade e conformidade legal.</p>
+      <div class="servico-items">
+        <div class="servico-item">Folha de pagamento e holerites</div>
+        <div class="servico-item">Admissões, demissões e rescisões</div>
+        <div class="servico-item">eSocial, CAGED e RAIS</div>
+      </div>
+    </div>
+
+    <div class="servico">
+      <div class="servico-header">
+        <div class="servico-icon-wrap">🏢</div>
+        <span class="servico-num">04</span>
+      </div>
+      <h3>Societário</h3>
+      <p>Abertura, alteração e encerramento de empresas com agilidade nos registros junto à Junta Comercial, Receita Federal e demais órgãos.</p>
+      <div class="servico-items">
+        <div class="servico-item">Abertura e encerramento de empresas</div>
+        <div class="servico-item">Alterações contratuais e societárias</div>
+        <div class="servico-item">Registro em órgãos competentes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section class="metodologia" id="metodologia">
+  <div class="metodologia-grid">
+    <div class="metodologia-texto">
+      <div class="secao-tag">Quem somos</div>
+      <h2>DNA de excelência em cada entrega</h2>
+      <p>Nossa liderança carrega a bagagem e a cultura das maiores firmas de auditoria e consultoria do mundo — <strong>PwC e EY</strong> — aplicando metodologias globais de governança sob medida para a realidade da sua empresa.</p>
+      <p>Modelo 100% digital que permite atender empresas em <strong>qualquer estado do Brasil</strong> com o mesmo padrão de excelência, sem fronteiras geográficas. <strong>Contabilidade estratégica é diferencial competitivo.</strong></p>
+    </div>
+
+    <div class="metodologia-items">
+      <div class="met-item">
+        <div class="met-icon">🎯</div>
+        <div class="met-text">
+          <strong>Atendimento direto e especializado</strong>
+          <span>Nossos especialistas seniores estão dedicados ao seu negócio — sem intermediários e com foco total na sua operação.</span>
+        </div>
+      </div>
+      <div class="met-item">
+        <div class="met-icon">🔒</div>
+        <div class="met-text">
+          <strong>Segurança e conformidade</strong>
+          <span>Processos estruturados que garantem o cumprimento de todas as obrigações fiscais, contábeis e trabalhistas dentro do prazo.</span>
+        </div>
+      </div>
+      <div class="met-item">
+        <div class="met-icon">📱</div>
+        <div class="met-text">
+          <strong>100% digital e acessível</strong>
+          <span>Portal do cliente exclusivo, documentos disponíveis 24h e comunicação ágil sem burocracia.</span>
+        </div>
+      </div>
+      <div class="met-item">
+        <div class="met-icon">📈</div>
+        <div class="met-text">
+          <strong>Visão estratégica de negócio</strong>
+          <span>Transformamos dados contábeis em insights que apoiam decisões de crescimento e eficiência operacional.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAL -->
+<section class="portal" id="portal">
+  <div class="portal-inner">
+    <div>
+      <div class="secao-tag">Portal do Cliente</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4vw,52px); font-weight:700; letter-spacing:-0.8px; line-height:1.1; margin-bottom:24px">Seus documentos sempre à mão</h2>
+      <p style="font-size:16px; color:var(--gray); line-height:1.8; margin-bottom:16px">Acesse guias, balancetes, holerites, notas fiscais e todos os documentos da sua empresa a qualquer hora, de qualquer lugar, pelo nosso portal exclusivo.</p>
+      <p style="font-size:16px; color:var(--gray); line-height:1.8; margin-bottom:36px">Sem e-mail, sem WhatsApp com anexo. Tudo organizado, seguro e disponível com um clique.</p>
+      <a href="#" class="btn-gold">Acessar portal →</a>
+    </div>
+
+    <div class="portal-visual">
+      <div class="portal-topbar">
+        <div class="dot-red"></div>
+        <div class="dot-yellow"></div>
+        <div class="dot-green"></div>
+        <span class="portal-topbar-title">portal.blackstarcontabilidade.com.br</span>
+      </div>
+      <div class="portal-body">
+        <div class="portal-header-mock">
+          <span>Meus Documentos</span>
+          <small>Junho 2026</small>
+        </div>
+        <div class="portal-doc">
+          <div class="portal-doc-info">
+            <span class="portal-doc-icon">📊</span>
+            <div>
+              <span class="portal-doc-name">Balancete Jun/2026</span>
+              <span class="portal-doc-date">Disponível em 05/07/2026</span>
+            </div>
+          </div>
+          <span class="portal-doc-badge">PDF</span>
+        </div>
+        <div class="portal-doc">
+          <div class="portal-doc-info">
+            <span class="portal-doc-icon">🧾</span>
+            <div>
+              <span class="portal-doc-name">Guias DAS — Jun/2026</span>
+              <span class="portal-doc-date">Vencimento 20/07/2026</span>
+            </div>
+          </div>
+          <span class="portal-doc-badge">PDF</span>
+        </div>
+        <div class="portal-doc">
+          <div class="portal-doc-info">
+            <span class="portal-doc-icon">👥</span>
+            <div>
+              <span class="portal-doc-name">Holerites Jun/2026</span>
+              <span class="portal-doc-date">Disponível em 01/07/2026</span>
+            </div>
+          </div>
+          <span class="portal-doc-badge">PDF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="contato">
+  <h2>Pronto para elevar<br>a contabilidade da<br>sua <em>empresa?</em></h2>
+  <p>Fale com nossa equipe e descubra como a BlackStar pode transformar a gestão contábil do seu negócio.</p>
+  <a href="https://wa.me/5511978711841?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20BlackStar%20Contabilidade." class="btn-gold" target="_blank" style="font-size:15px; padding:16px 32px">
+    💬 Falar com nossa equipe no WhatsApp
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="/static/logo.jpeg" alt="BlackStar Contabilidade" style="height:52px; width:auto; filter: brightness(0) invert(1);">
+      <p>Escritório contábil com metodologia de excelência para empresas que buscam crescimento seguro e eficiência na gestão.</p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Serviços</h5>
+      <ul>
+        <li><a href="#servicos">Contabilidade</a></li>
+        <li><a href="#servicos">Fiscal & Tributário</a></li>
+        <li><a href="#servicos">Departamento Pessoal</a></li>
+        <li><a href="#servicos">Societário</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Acesso</h5>
+      <ul>
+        <li><a href="#">Área do Cliente</a></li>
+        <li><a href="https://wa.me/5511978711841" target="_blank">WhatsApp</a></li>
+        <li><a href="#metodologia">Sobre nós</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 BlackStar Contabilidade — CNPJ 52.523.436/0001-69</p>
+    <span>Atendimento em todo o Brasil</span>
+  </div>
+</footer>
+
+
+<!-- WHATSAPP FLUTUANTE -->
+<a href="https://wa.me/5511978711841?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20BlackStar%20Contabilidade." class="whatsapp-float" target="_blank" title="Falar no WhatsApp">
+  <span class="wpp-label">Falar no WhatsApp</span>
+  <div class="wpp-btn">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </div>
+</a>
+
+<script>
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Hamburger menu
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('navMenu').classList.toggle('open');
+});
+
+// Fechar menu ao clicar em link
+document.querySelectorAll('.nav-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navMenu').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>
