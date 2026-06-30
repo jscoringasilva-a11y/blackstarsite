@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Admin — BlackStar{% endblock %}
+
+{% block extra_style %}
+.topbar {
+  background: var(--black);
+  padding: 20px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-logo { display: flex; align-items: center; gap: 10px; color: #fff; }
+.topbar-logo .star { color: var(--gold); }
+.topbar-logo h2 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; }
+
+.topbar-user a { color: var(--gold); font-size: 13px; text-decoration: none; font-weight: 500; }
+
+.content { max-width: 1100px; margin: 0 auto; padding: 48px 5%; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-ativo { background: rgba(16,217,138,.15); color: var(--green); }
+.badge-inativo { background: rgba(240,70,110,.15); color: var(--red); }
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+
+.actions { display: flex; gap: 8px; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
+{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <div class="topbar-logo">
+    <h2>Black<span class="star">Star</span> <span style="font-size:12px; color:var(--gold); font-weight:400">Admin</span></h2>
+  </div>
+  <div class="topbar-user">
+    <a href="{{ url_for('logout_admin') }}">Sair</a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="page-header">
+    <h1>Clientes</h1>
+    <button class="btn btn-gold" onclick="document.getElementById('modalNovo').classList.add('open')">+ Novo Cliente</button>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="card">
+    {% if clientes %}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>CNPJ</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in clientes %}
+          <tr>
+            <td style="font-weight:500">{{ c.nome }}</td>
+            <td style="color:var(--gray)">{{ c.email }}</td>
+            <td style="color:var(--gray)">{{ c.cnpj or '—' }}</td>
+            <td>
+              <span class="badge {{ 'badge-ativo' if c.ativo else 'badge-inativo' }}">
+                {{ 'Ativo' if c.ativo else 'Inativo' }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-ghost btn-sm" onclick='abrirEditar({{ c.id }}, "{{ c.nome }}", "{{ c.email }}", "{{ c.cnpj or "" }}", "{{ c.pasta_drive_id or "" }}")'>Editar</button>
+                <form action="{{ url_for('desativar_cliente', id=c.id) }}" method="POST" style="display:inline">
+                  <button type="submit" class="btn btn-ghost btn-sm">{{ 'Desativar' if c.ativo else 'Ativar' }}</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>Nenhum cliente cadastrado ainda.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Modal Novo Cliente -->
+<div class="modal-overlay" id="modalNovo">
+  <div class="modal">
+    <h3>Novo Cliente</h3>
+    <form action="{{ url_for('novo_cliente') }}" method="POST">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+      </div>
+      <div class="form-group">
+        <label>E-mail (login)</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Senha inicial</label>
+        <input type="text" name="senha" required>
+      </div>
+      <div class="form-group">
+        <label>CNPJ (opcional)</label>
+        <input type="text" name="cnpj">
+      </div>
+      <div class="form-group">
+        <label>ID da pasta no Google Drive (opcional)</label>
+        <input type="text" name="pasta_drive_id" placeholder="Cole o ID da pasta aqui">
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('modalNovo').classList.remove('open')">Cancelar</button>
+        <button type="submit" class="btn btn-gold">Criar Cliente</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Editar Cliente -->
+<div class="modal-overlay" id="modalEditar">
+  <div class="modal">
+    <h3>Editar Cliente</h3>
+    <form id="formEditar" method="POST">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" name="nome" id="editNome" required>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="editEmail" disabled style="background:var(--gray2)">
+      </div>
+      <div class="form-group">
+        <label>Nova senha (deixe em branco para manter)</label>
+        <input type="text" name="senha">
+      </div>
+      <div class="form-group">
+        <label>CNPJ</label>
+        <input type="text" name="cnpj" id="editCnpj">
+      </div>
+      <div class="form-group">
+        <label>ID da pasta no Google Drive</label>
+        <input type="text" name="pasta_drive_id" id="editPastaDrive">
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('modalEditar').classList.remove('open')">Cancelar</button>
+        <button type="submit" class="btn btn-gold">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function abrirEditar(id, nome, email, cnpj, pastaDrive) {
+  document.getElementById('formEditar').action = '/admin/cliente/editar/' + id;
+  document.getElementById('editNome').value = nome;
+  document.getElementById('editEmail').value = email;
+  document.getElementById('editCnpj').value = cnpj;
+  document.getElementById('editPastaDrive').value = pastaDrive;
+  document.getElementById('modalEditar').classList.add('open');
+}
+</script>
+{% endblock %}

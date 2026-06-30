@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Admin — BlackStar{% endblock %}
+
+{% block extra_style %}
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+  padding: 20px;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.3);
+}
+
+.login-logo { text-align: center; margin-bottom: 8px; }
+.login-logo .star { color: var(--gold); }
+.login-logo h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.login-tag {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.login-btn { width: 100%; padding: 14px; font-size: 15px; margin-top: 8px; }
+{% endblock %}
+
+{% block content %}
+<div class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <h1>Black<span class="star">Star</span></h1>
+    </div>
+    <div class="login-tag">Painel Administrativo</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" name="email" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" name="senha" required>
+      </div>
+      <button type="submit" class="btn btn-gold login-btn">Entrar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
